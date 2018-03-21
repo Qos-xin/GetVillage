@@ -12,6 +12,7 @@ namespace GetVillage
     public class Village
     {
         static string BaseUrl = "http://automate/api/";
+        public static string url = "https://bj.lianjia.com/xiaoqu/rs{0}/";
         static HttpClient httpClient = new HttpClient();
         /// <summary>
         /// 获取小区列表
@@ -42,9 +43,8 @@ namespace GetVillage
         /// <returns></returns>
         public static async Task<string> Search(string name)
         {
-            var url = $"https://bj.lianjia.com/xiaoqu/rs{name}/";
             HtmlAgilityPack.HtmlWeb htmlWeb = new HtmlAgilityPack.HtmlWeb();
-            var htmlSource = await htmlWeb.LoadFromWebAsync(url);
+            var htmlSource = await htmlWeb.LoadFromWebAsync(string.Format(url, name));
             var html = htmlSource.DocumentNode;
             var totalNode = html.SelectSingleNode("//h2[@class='total fl']/span");
             if (totalNode != null && int.TryParse(totalNode.InnerText, out int Total) && Total > 0)
